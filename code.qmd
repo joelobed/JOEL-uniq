@@ -1,0 +1,88 @@
+---
+title: "Article Title"
+subtitle: "Journal"
+author: "Flavio Lozano-Isla"
+format:
+  html:
+    toc: true
+    toc-location: left
+    number-sections: true
+    self-contained: true
+    output-file: "ESM_1"
+editor_options: 
+  chunk_output_type: console
+execute: 
+  warning: false
+---
+
+# Setup
+
+```{r}
+#| label:  setup
+
+setup <- tempfile(fileext = ".r")
+readLines(con = 'https://inkaverse.com/docs.r') |> 
+  gsub("echo = FALSE", "echo = TRUE", x = _) |>
+  writeLines(setup)
+source(setup)
+
+library(tidyverse)
+library(magick)
+library(cowplot)
+library(tiff)
+library(png)
+library(jpeg)
+
+sessionInfo()
+```
+
+# Figuras
+
+## Importar
+
+```{r}
+plot01 <- readPNG("plot01.png") %>% grid::rasterGrob()
+plot02 <- readPNG("plot02.png") %>% grid::rasterGrob()
+plot03 <- readPNG("plot03.png") %>% grid::rasterGrob()
+```
+
+## Grid plots
+
+```{r}
+plot <- list(plot01, plot02, plot03) %>% 
+  plot_grid(plotlist = .
+            , nrow = 2
+            , labels = "AUTO"
+            )
+
+plot
+```
+
+## Guardar figura
+
+```{r}
+plot %>% 
+  ggsave2(filename = "Fig01.pdf"
+          , plot = .
+          , dpi = 300
+          , width = 20
+          , height = 10
+          , units = "cm"
+          )
+```
+
+## PDF to TIFF
+
+```{r}
+pdf2tiff <- list.files(".", pattern = "Fig.*pdf", full.names = T) 
+
+imgs <- 1:length(pdf2tiff) %>% map(\(x) {
+  
+  filename <- pdf2tiff[x] %>% gsub(".pdf", "\\1.tiff", .) 
+  
+  pdf2tiff[x] %>% 
+    image_read_pdf() %>% 
+    image_write(format = "tiff", filename)
+  
+})
+```

@@ -1,0 +1,39 @@
+---
+# title: "Rticles"
+# author: "Flavio Lozano-Isla"
+format:
+  html:
+    toc: true
+    toc-location: left
+    number-sections: true
+    self-contained: true
+    output-file: "index"
+  docx:
+    toc: false
+    section-numbers: true
+    # reference-doc: files/style.docx
+    output-file: "manuscript"
+editor_options: 
+  chunk_output_type: console
+execute:
+  echo: false
+  warning: false
+crossref:
+  fig-title: Fig.
+  fig-prefix: Fig.
+---
+
+```{r}
+#| label: setup
+
+source("http://inkaverse.com/docs.r")
+
+doc <- inti::gdoc2qmd(file = "manuscript.zip",format = "qmd")
+```
+
+```{r}
+#| results: 'asis'
+
+rticle <- knitr::knit_child(doc, quiet = TRUE)
+cat(rticle, sep = '\n')
+```

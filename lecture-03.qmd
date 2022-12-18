@@ -53,7 +53,7 @@ open # open file or directory
 ```{bash}
 #| eval: false
 
-ssh-keygen -t rsa -C "flozano@lamolina.edu.pe" 
+ssh-keygen -t rsa -C "19102142@uniq.edu.pe" 
 cat ~/.ssh/id_rsa.pub
 ```
 
@@ -98,4 +98,8 @@ git push
 git pull
 ```
 
+
+# introducion
+
+# materiales y metodos
 
