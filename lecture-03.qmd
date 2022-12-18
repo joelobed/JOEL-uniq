@@ -103,7 +103,9 @@ git pull
 
 # materiales y metodos
 
+# conclusion
 
+# discuciones
 
 ```{git}
 
